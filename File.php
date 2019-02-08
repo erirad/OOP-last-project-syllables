@@ -1,4 +1,5 @@
 <?php
+
 class File {
 
     private $file;
@@ -19,3 +20,4 @@ class File {
         $this->input = trim(fgets(STDIN, 1024));
     }
 }
+
