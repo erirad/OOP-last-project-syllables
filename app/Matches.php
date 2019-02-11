@@ -1,19 +1,14 @@
 <?php
 
-
-include_once('File.php');
-
-class Matches extends File{
-    //protected $input;
+class Matches
+{
     private $finalArr;
 
-    function __construct() {
-        parent::__construct('text.txt');
-        $this->storeAllMatchesIntoArray($this->arr, $this->input);
+    private $input;
 
-    }
+    public $output;
+
     public function getfinalArr(){
-
         return $this->finalArr;
     }
     private function getStartMatch($value, $lenght, $withoutNumber)
@@ -50,30 +45,33 @@ class Matches extends File{
             }
         }
     }
-    private function storeAllMatchesIntoArray($valuesFromText, $input)
+    public function storeAllMatchesIntoArray($fileName, $input)
     {
+        $file = new File();
+        $file->storeValuesFromFileIntoArray($fileName);
+        $fileArray = $file->getFileArray();
+        $matches = 0;
 
+        $finalArr = [];
+        $this->input = $input;
 
-        $finalArr = array();
-
-        foreach ($valuesFromText as $value) {
+        foreach ($fileArray as $value) {
             $withoutNumber = preg_replace('/[0-9]+/', '', $value);
             $lenght = strlen($withoutNumber) - 1;
             $getStartMatch = $this->getStartMatch($value, $lenght, $withoutNumber);
             if($getStartMatch != ""){
-                array_push($finalArr, $getStartMatch);
+                $finalArr[] = $getStartMatch;
             }
             $getMiddleMatch = $this->getMiddleMatch($value, $lenght, $withoutNumber);
             if($getMiddleMatch != ""){
-                array_push($finalArr, $getMiddleMatch);
+                $finalArr[] = $getMiddleMatch;
             }
             $getEndMatch = $this->getEndMatch($value, $lenght, $withoutNumber);
             if($getEndMatch != ""){
-                array_push($finalArr, $getEndMatch);
+                $finalArr[] = $getEndMatch;
             }
-
-
         }
         $this->finalArr = $finalArr;
     }
 }
+?>

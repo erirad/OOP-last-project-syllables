@@ -1,9 +1,6 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 
-include 'Matches.php';
-include 'Syllables.php';
+$play = new PlayApp("text.txt");
 
-$matches = new Matches();
-$finalArr = $matches->getfinalArr();
-$syllables = new Syllables($finalArr);
-echo $syllables->getResult();
+?>

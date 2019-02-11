@@ -1,17 +1,8 @@
 <?php
-
-
-class Syllables {
-
+class Syllables
+{
     private $result;
-    private $print;
-    function __construct($finalArr) {
-        $this->getFinalStringWithNumbers($finalArr);
-        $this->printFinalResult($this->result);
-    }
-    public function getResult(){
-        return $this->print;
-    }
+
     private function addEverySecondCharacterZero($arrOfArr)
     {
         $newArrOfArr = array();
@@ -62,8 +53,8 @@ class Syllables {
         }
         return $rezultatas;
     }
-    private function getFinalStringWithNumbers($finalArr) {
-        //matrica
+    public function getFinalStringWithNumbers($finalArr) {
+
         $arrOfArr = array();
         foreach ($finalArr as $el){
             array_push($arrOfArr, preg_split('//', $el, -1, PREG_SPLIT_NO_EMPTY));
@@ -73,10 +64,10 @@ class Syllables {
         $rezultatas = $this->mergeAllToOneArray($newArrOfArr);
         $this->result = $rezultatas;
     }
-    private function printFinalResult($rezultatas)
+    public function printFinalResult()
     {
         // gauname rezultata, pasaliname nebereikalingus '0', atspausdiname kaip string
-        $printResult = str_replace ( "0","", $rezultatas );
+        $printResult = str_replace ("0","", $this->result);
         //pakeicia nelyginius - "-", lyginius- ""
         foreach ($printResult as $key => $rez) {
             if(is_numeric($rez) && $rez % 2 != 0) {
@@ -90,6 +81,7 @@ class Syllables {
             }
         }
         $printResult = implode("", $printResult);
-        $this->print = $printResult;
+        echo $printResult . "\n";
     }
 }
+?>
