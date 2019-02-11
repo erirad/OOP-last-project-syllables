@@ -6,8 +6,6 @@ class Matches
 
     private $input;
 
-    public $output;
-
     public function getfinalArr(){
         return $this->finalArr;
     }
@@ -23,6 +21,7 @@ class Matches
             }
         }
     }
+
     private function getMiddleMatch($value, $lenght, $withoutNumber)
     {
         $elementFrom = stripos($this->input, $withoutNumber);
@@ -32,6 +31,7 @@ class Matches
             return $replaced;
         }
     }
+
     private function getEndMatch($value, $lenght, $withoutNumber)
     {
         if (substr($withoutNumber, $lenght, 1) === '.') {
@@ -45,12 +45,11 @@ class Matches
             }
         }
     }
+
     public function storeAllMatchesIntoArray($fileName, $input)
     {
         $file = new File();
-        $file->storeValuesFromFileIntoArray($fileName);
-        $fileArray = $file->getFileArray();
-        $matches = 0;
+        $fileArray = $file->storeValuesFromFileIntoArray($fileName);
 
         $finalArr = [];
         $this->input = $input;
