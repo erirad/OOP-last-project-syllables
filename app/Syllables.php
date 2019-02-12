@@ -1,4 +1,5 @@
 <?php
+namespace app;
 
 class Syllables
 {
@@ -6,21 +7,29 @@ class Syllables
 
     private function addEverySecondCharacterZero($arrOfArr)
     {
-        $newArrOfArr = array();
+        $newArrOfArr = [];
         foreach ($arrOfArr as $arr) {
-            $arrWithZero = array();
+            $arrWithZero = [];
             foreach ($arr as $key => $val) {
                 if (is_numeric($val) == true) {
                     $arrWithZero[] = $val;
-                } else if (array_key_exists($key + 1, $arr) == true) {
+                } elseif (array_key_exists($key + 1, $arr) == true) {
                     if (is_numeric($arr[$key + 1]) == true) {
                         $arrWithZero[] = $val;
-                    } else if (is_numeric($val) == false) {
+                    } elseif (is_numeric($val) == false) {
                         array_push($arrWithZero, $val, '0');
                     }
-                } else if (is_numeric($val) == false) {
-                    array_push($arrWithZero, $val, '0');
+                    elseif (is_numeric($val) == false) {
+                        array_push($arrWithZero, $val, '0');
+                    }
+                } elseif (is_numeric($val) == false) {
+                    if(!preg_match('/^[a-zA-Z0-9]+$/', $val)){
+                        array_push($arrWithZero, $val);
+                    } else {
+                        array_push($arrWithZero, $val, '0');
+                    }
                 }
+
             }
             $newArrOfArr[] = $arrWithZero;
         }
@@ -39,7 +48,6 @@ class Syllables
 
     private function mergeAllToOneArray($newArrOfArr)
     {
-
         $countCharLenght = count($newArrOfArr[0]);
         $rezultatas = $newArrOfArr[0];
         foreach ($newArrOfArr as $arr) {
@@ -73,7 +81,7 @@ class Syllables
     public function printFinalResult()
     {
         // gauname rezultata, pasaliname nebereikalingus '0', atspausdiname kaip string
-        $printResult = str_replace("0", "", $this->result);
+        $printResult = preg_replace("/0/", "", $this->result);
         //pakeicia nelyginius - "-", lyginius- ""
         foreach ($printResult as $key => $rez) {
             if (is_numeric($rez) && $rez % 2 != 0) {
@@ -82,12 +90,12 @@ class Syllables
             if (is_numeric($rez) && $rez % 2 == 0) {
                 $printResult[$key] = "";
             }
-            if ($printResult[0] == "-") {
+            if ($printResult[0] == "-" || $printResult[count($printResult)-1] == "-") {
                 $printResult[$key] = "";
             }
         }
         $printResult = implode("", $printResult);
-        echo $printResult . "\n";
+        echo $printResult . " ";
     }
 }
 ?>

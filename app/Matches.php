@@ -1,14 +1,18 @@
 <?php
+namespace app;
+
+use app\File;
 
 class Matches
 {
-    private $finalArr;
-
     private $input;
 
-    public function getfinalArr(){
-        return $this->finalArr;
+    private $matches = [];
+
+    public function getMatches() {
+        return $this->matches;
     }
+
     private function getStartMatch($value, $lenght, $withoutNumber)
     {
         if (substr($withoutNumber, 0, 1) === '.') {
@@ -17,6 +21,7 @@ class Matches
             if ($partOfValue === $valuewithoutdot) {
                 $replaced = preg_replace('/' . $partOfValue . '/', $value, $this->input);
                 $replaced = substr($replaced, 1);
+                $this->matches[] = $value;
                 return $replaced;
             }
         }
@@ -28,6 +33,7 @@ class Matches
         $partOfValue = substr($this->input, $elementFrom, $lenght + 1);
         if ($elementFrom !== false) {
             $replaced = preg_replace('/' . $partOfValue . '/', $value, $this->input);
+            $this->matches[] = $value;
             return $replaced;
         }
     }
@@ -41,6 +47,7 @@ class Matches
             if ($partOfValue === $valuewithoutdot) {
                 $replaced = preg_replace('/' . $partOfValue . '/', $value, $this->input);
                 $replaced = substr($replaced, 0, -1);
+                $this->matches[] = $value;
                 return $replaced;
             }
         }
@@ -70,7 +77,7 @@ class Matches
                 $finalArr[] = $getEndMatch;
             }
         }
-        $this->finalArr = $finalArr;
+        return $finalArr;
     }
 }
 ?>
