@@ -1,51 +1,84 @@
 <?php
 namespace app;
 
+use app\Database;
+use app\File;
+use app\Input;
 use app\Matches;
 use app\Syllables;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-
-
 class App
 {
-    public function playApp($fileName)
+    public function playApp()
     {
-        echo "Read from file? [Y/N] \n";
-        $answerIfReadFromFile = trim(fgets(STDIN, 1024));
-        if($answerIfReadFromFile == "Y") {
-            echo "file name: ";
-            $file = trim(fgets(STDIN, 1024));
-            $sentence = file_get_contents(PATH."/$file");
-            $sentence = preg_split("/[\s]+/", $sentence);
-        } else {
-            echo "Irasykite zodi: \n";
-            $input = trim(fgets(STDIN, 1024));
-            $sentence = preg_split("/[\s]+/", $input);
+        echo "Import patterns file to DB? [Y/N] \n";
+        $answerIfImportPatternsToDb = trim(fgets(STDIN, 1024));
+        if(strtolower($answerIfImportPatternsToDb) == "y") {
+            $db = new Database("test");
+            $db->insertIntoDbFromFile("text.txt", "\n", "patterns", "name");
         }
-        foreach ($sentence as $word) {
+
+        echo "Import text file to DB? [Y/N] \n";
+        $answerIfImportTextToDb = trim(fgets(STDIN, 1024));
+        if(strtolower($answerIfImportTextToDb) == "y") {
+            $db = new Database("test");
+            $db->insertIntoDbFromFile("words.txt", "\n", "words", "word");
+        }
+        echo "Read all from DB? [Y/N] \n";
+        $answerIfSyllablesWithDataFromDb = trim(fgets(STDIN, 1024));
+        if(strtolower($answerIfSyllablesWithDataFromDb) == "y") {
             $programStarts = microtime(false);
-            if (preg_match('~[0-9]~', $word)){
+            $db = new Database("test");
+            $fileArray = $db->getDataFromDb("patterns", "name");
+            $sentence = $db->getDataFromDb("words", "word");
+            $this->checkSentence($sentence, $fileArray, $programStarts);
+        } else {
+            $programStarts = microtime(false);
+            $file = new File();
+            $fileArray = $file->storeValuesFromFileIntoArray("text.txt");
+            $input = new Input();
+            $sentence = $input->storeCustomInputIntoArray();
+            $this->checkSentence($sentence, $fileArray, $programStarts);
+        }
+    }
+
+    public function checkSentence($sentence, $fileArray, $programStarts)
+    {
+        foreach ($sentence as $word) {
+
+            if (preg_match('~[0-9]~', $word)) {
                 echo $word . " ";
                 continue;
             }
             $matches = new Matches();
-            $finalArr = $matches->storeAllMatchesIntoArray($fileName, $word);
-            if($finalArr != null) {
+            $matchesArray = $matches->storeAllMatchesIntoArray($fileArray, $word);
+            $patternArray = $matches->getMatches();
+            foreach ($patternArray as $pattern){
+                if(Input::$syllablesword == null) {
+                    Database::insertMatchesWithPatternsAndWord($word, $pattern);
+                }
+            }
+            if ($matchesArray != null) {
                 $syllables = new Syllables();
-                $syllables->getFinalStringWithNumbers($finalArr);
-                $syllables->printFinalResult();
+                $syllables->storeFinalResult($matchesArray);
 
-                $log = new Logger('name');
-                $log->pushHandler(new StreamHandler('log', Logger::INFO));
-                $getTime = microtime(false) - $programStarts;
-                $allMatches = $matches->getMatches();
-                $log->info('syllables', array('word' => $word, 'time spent' => $getTime, 'matches:'=> $allMatches));
+                $finalResult = $syllables->getResult();
+                if(Input::$syllablesword == null) {
+                    Database::updateCmiTableAddFinallResult($word, $finalResult);
+                }
+                echo $finalResult . " ";
+              //  $log = new Logger('name');
+               // $log->pushHandler(new StreamHandler('log', Logger::INFO));
+              //  $allMatches = $matches->getMatches();
+               // $getTime = microtime(false) - $programStarts;
+               // $log->info('syllables', array('word' => $word, 'time spent' => $getTime, 'matches:'=> $allMatches));
             } else {
                 echo $word . " ";
             }
         }
     }
+
 }
 

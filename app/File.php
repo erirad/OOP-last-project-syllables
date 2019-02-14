@@ -13,5 +13,16 @@ class File
         }
         return $valuesFromFile;
     }
+
+    public function storeValuesFromFileIntoString($fileName)
+    {
+        $file = new \SplFileObject($fileName);
+
+        while (!$file->eof()) {
+            $line = trim($file->fgets());
+            $valuesFromFile = $line;
+        }
+        return $valuesFromFile;
+    }
 }
 ?>

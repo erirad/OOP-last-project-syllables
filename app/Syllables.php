@@ -5,6 +5,11 @@ class Syllables
 {
     private $result;
 
+    public function getResult()
+    {
+        return $this->result;
+    }
+
     private function addEverySecondCharacterZero($arrOfArr)
     {
         $newArrOfArr = [];
@@ -65,37 +70,38 @@ class Syllables
         return $rezultatas;
     }
 
-    public function getFinalStringWithNumbers($finalArr)
+    private function getFinalStringWithNumbers($finalArr)
     {
-
         $arrOfArr = array();
         foreach ($finalArr as $el) {
             array_push($arrOfArr, preg_split('//', $el, -1, PREG_SPLIT_NO_EMPTY));
         }
         $newArrOfArr = $this->addEverySecondCharacterZero($arrOfArr);
         $newArrOfArr = $this->setFirstCharZero($newArrOfArr);
-        $rezultatas = $this->mergeAllToOneArray($newArrOfArr);
-        $this->result = $rezultatas;
+        $result = $this->mergeAllToOneArray($newArrOfArr);
+        return $result;
     }
 
-    public function printFinalResult()
+    public function storeFinalResult($finalArr)
     {
+        $result = $this->getFinalStringWithNumbers($finalArr);
         // gauname rezultata, pasaliname nebereikalingus '0', atspausdiname kaip string
-        $printResult = preg_replace("/0/", "", $this->result);
+        $finalResult = preg_replace("/0/", "", $result);
         //pakeicia nelyginius - "-", lyginius- ""
-        foreach ($printResult as $key => $rez) {
+        foreach ($finalResult as $key => $rez) {
             if (is_numeric($rez) && $rez % 2 != 0) {
-                $printResult[$key] = "-";
+                $finalResult[$key] = "-";
             }
             if (is_numeric($rez) && $rez % 2 == 0) {
-                $printResult[$key] = "";
+                $finalResult[$key] = "";
             }
-            if ($printResult[0] == "-" || $printResult[count($printResult)-1] == "-") {
-                $printResult[$key] = "";
+            if ($finalResult[0] == "-" || $finalResult[count($finalResult)-1] == "-") {
+                $finalResult[$key] = "";
             }
         }
-        $printResult = implode("", $printResult);
-        echo $printResult . " ";
+        $finalResult = implode("", $finalResult);
+
+        $this->result = $finalResult;
     }
 }
 ?>

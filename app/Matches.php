@@ -1,8 +1,6 @@
 <?php
 namespace app;
 
-use app\File;
-
 class Matches
 {
     private $input;
@@ -22,6 +20,7 @@ class Matches
                 $replaced = preg_replace('/' . $partOfValue . '/', $value, $this->input);
                 $replaced = substr($replaced, 1);
                 $this->matches[] = $value;
+
                 return $replaced;
             }
         }
@@ -34,6 +33,7 @@ class Matches
         if ($elementFrom !== false) {
             $replaced = preg_replace('/' . $partOfValue . '/', $value, $this->input);
             $this->matches[] = $value;
+
             return $replaced;
         }
     }
@@ -48,16 +48,14 @@ class Matches
                 $replaced = preg_replace('/' . $partOfValue . '/', $value, $this->input);
                 $replaced = substr($replaced, 0, -1);
                 $this->matches[] = $value;
+
                 return $replaced;
             }
         }
     }
 
-    public function storeAllMatchesIntoArray($fileName, $input)
+    public function storeAllMatchesIntoArray($fileArray, $input)
     {
-        $file = new File();
-        $fileArray = $file->storeValuesFromFileIntoArray($fileName);
-
         $finalArr = [];
         $this->input = $input;
 
