@@ -1,9 +1,9 @@
 <?php
-namespace app;
+namespace App\Helper;
 
 class File
 {
-    public function storeValuesFromFileIntoArray($fileName)
+    public function insertValuesFromFileIntoArray($fileName)
     {
         $file = new \SplFileObject($fileName);
 

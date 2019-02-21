@@ -6,6 +6,20 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\App' => $baseDir . '/app/Start/App.php',
+    'App\\Config\\Connection' => $baseDir . '/app/Config/Connection.php',
+    'App\\Controller\\ApiController' => $baseDir . '/app/Controller/ApiController.php',
+    'App\\Controller\\InputController' => $baseDir . '/app/Controller/InputController.php',
+    'App\\Controller\\Navigation' => $baseDir . '/app/Controller/Navigation.php',
+    'App\\Controller\\PatternController' => $baseDir . '/app/Controller/PatternController.php',
+    'App\\Controller\\WordController' => $baseDir . '/app/Controller/WordController.php',
+    'App\\Helper\\Database' => $baseDir . '/app/Helper/Database.php',
+    'App\\Helper\\File' => $baseDir . '/app/Helper/File.php',
+    'App\\Helper\\Match' => $baseDir . '/app/Helper/Match.php',
+    'App\\Helper\\Syllables' => $baseDir . '/app/Helper/Syllables.php',
+    'App\\Model\\Input' => $baseDir . '/app/Model/Input.php',
+    'App\\Model\\Pattern' => $baseDir . '/app/Model/Pattern.php',
+    'App\\Model\\Word' => $baseDir . '/app/Model/Word.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',
     'Monolog\\Formatter\\ChromePHPFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ChromePHPFormatter.php',
     'Monolog\\Formatter\\ElasticaFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ElasticaFormatter.php',
@@ -110,11 +124,4 @@ return array(
     'Psr\\Log\\Test\\DummyTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
     'Psr\\Log\\Test\\LoggerInterfaceTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
     'Psr\\Log\\Test\\TestLogger' => $vendorDir . '/psr/log/Psr/Log/Test/TestLogger.php',
-    'app\\App' => $baseDir . '/app/App.php',
-    'app\\Connection' => $baseDir . '/app/Connection.php',
-    'app\\Database' => $baseDir . '/app/Database.php',
-    'app\\File' => $baseDir . '/app/File.php',
-    'app\\Input' => $baseDir . '/app/Input.php',
-    'app\\Matches' => $baseDir . '/app/Matches.php',
-    'app\\Syllables' => $baseDir . '/app/Syllables.php',
 );

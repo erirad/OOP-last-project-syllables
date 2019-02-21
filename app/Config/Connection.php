@@ -1,19 +1,18 @@
 <?php
-namespace app;
+namespace App\Config;
 
 use PDO;
 
 class Connection
 {
-    protected $host = "localhost";
-    protected $username = "root";
-    protected $password = "root";
-    protected $database;
+    private $host = "localhost";
+    private $username = "root";
+    private $password = "root";
+    private $database = "test";
     protected $connect;
 
-    public function __construct($database)
+    public function __construct()
     {
-        $this->database = $database;
         try
         {
             $connect = new PDO("mysql:host=$this->host; dbname=$this->database", $this->username, $this->password, array(PDO::MYSQL_ATTR_LOCAL_INFILE => true,));
