@@ -36,7 +36,6 @@ class Syllables
     private function findHighestValueAndReplaceOddToDash($positionsArray, $input)
     {
         $numberPosition = "";
-        print_r($numberPosition);
         $inputLenght = strlen($input);
         foreach ($positionsArray as $key => $value) {
             $number = max($value);

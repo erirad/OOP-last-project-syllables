@@ -18,5 +18,4 @@ class PatternController
 
         return $data;
     }
-
 }

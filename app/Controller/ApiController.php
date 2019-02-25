@@ -2,15 +2,17 @@
 namespace App\Controller;
 
 use App\Model\Input;
-use App\App;
+use App\Start\App;
 
 class ApiController
 {
     private $input;
+    private $app;
 
     public function __construct()
     {
         $this->input = new Input();
+        $this->app = new App();
     }
 
     public function playApi()
@@ -23,19 +25,12 @@ class ApiController
                 break;
             case 'POST':
                 $word = $_POST["word"];
-                $app = new App();
-                $result = $app->syllableInput($word);
+                $result = $this->app->syllableInput($word);
                 $created = $this->input->create($word, $result);
                 if($created) {
-                    $response = array(
-                        'status' => 1,
-                        'status_message' =>'Added Successfully.'
-                    );
+                    $response = http_response_code(201);
                 } else {
-                    $response = array(
-                        'status' => 0,
-                        'status_message' =>'Addition Failed.'
-                    );
+                    $response = http_response_code(400);
                 }
                 echo json_encode($response);
                 break;
@@ -50,19 +45,12 @@ class ApiController
                 array_merge($_REQUEST, $_PUT);
                 $id = $_PUT["id"];
                 $word = $_PUT['word'];
-                $app = new App();
-                $result = $app->syllableInput($word);
+                $result = $this->app->syllableInput($word);
                 $updated = $this->input->update($id, $word, $result);
                 if($updated) {
-                    $response = array(
-                        'status' => 1,
-                        'status_message' =>'Updated Successfully.'.$id
-                    );
+                    $response = http_response_code(200);
                 } else {
-                    $response = array(
-                        'status' => 0,
-                        'status_message' =>'Updated Failed.'
-                    );
+                    $response = http_response_code(400);
                 }
                 echo json_encode($response);
                 break;
@@ -71,15 +59,9 @@ class ApiController
                 $deleted = $this->input->delete($id);
 
                 if($deleted) {
-                    $response = array(
-                        'status' => 1,
-                        'status_message' =>'Deleted Successfully.'
-                    );
+                    $response = http_response_code(200);
                 } else {
-                    $response = array(
-                        'status' => 0,
-                        'status_message' =>'Deleted Failed.'
-                    );
+                    $response = http_response_code(400);
                 }
                 echo json_encode($response);
                 break;

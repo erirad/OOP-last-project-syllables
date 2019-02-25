@@ -6,13 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\App' => $baseDir . '/app/Start/App.php',
     'App\\Config\\Connection' => $baseDir . '/app/Config/Connection.php',
     'App\\Controller\\ApiController' => $baseDir . '/app/Controller/ApiController.php',
     'App\\Controller\\InputController' => $baseDir . '/app/Controller/InputController.php',
     'App\\Controller\\Navigation' => $baseDir . '/app/Controller/Navigation.php',
     'App\\Controller\\PatternController' => $baseDir . '/app/Controller/PatternController.php',
     'App\\Controller\\WordController' => $baseDir . '/app/Controller/WordController.php',
+    'App\\Helper\\DB' => $baseDir . '/app/Helper/DB.php',
     'App\\Helper\\Database' => $baseDir . '/app/Helper/Database.php',
     'App\\Helper\\File' => $baseDir . '/app/Helper/File.php',
     'App\\Helper\\Match' => $baseDir . '/app/Helper/Match.php',
@@ -20,6 +20,7 @@ return array(
     'App\\Model\\Input' => $baseDir . '/app/Model/Input.php',
     'App\\Model\\Pattern' => $baseDir . '/app/Model/Pattern.php',
     'App\\Model\\Word' => $baseDir . '/app/Model/Word.php',
+    'App\\Start\\App' => $baseDir . '/app/Start/App.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',
     'Monolog\\Formatter\\ChromePHPFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ChromePHPFormatter.php',
     'Monolog\\Formatter\\ElasticaFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ElasticaFormatter.php',

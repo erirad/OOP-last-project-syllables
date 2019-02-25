@@ -1,9 +1,10 @@
 <?php
 namespace App\Controller;
-use App\App;
+use App\Start\App;
 use App\Controller\PatternController;
 use App\Controller\WordController;
 use App\Controller\InputController;
+use App\Helper\File;
 
 class Navigation
 {
@@ -75,7 +76,7 @@ class Navigation
                 $wordsArray = $this->words->read();
                 $new = new App();
                 foreach ($wordsArray as $word){
-                    $result = $new->syllableInput($word);
+                    $result = $new->syllableInput($word[0]);
                     echo $result . " ";
                 }
                 break;
@@ -137,7 +138,7 @@ class Navigation
                 $new = new App();
                 foreach ($sentence as $word){
                     $result = $new->syllableInput($word);
-                    echo $result . " ";
+                  //  echo $result . " ";
                 }
                 break;
             case 3:

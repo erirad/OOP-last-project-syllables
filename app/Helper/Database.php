@@ -36,8 +36,11 @@ class Database extends Connection
 
         public function getDataFromDb($tableName, $columnName)
     {
-        $data = $this->connect->query("SELECT * FROM $tableName")->fetchAll();
+        $data = $this->connect->query("SELECT $columnName FROM $tableName")->fetchAll();
         return $data;
+
+
+
     }
 
 }
