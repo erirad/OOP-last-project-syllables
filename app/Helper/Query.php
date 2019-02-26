@@ -1,19 +1,37 @@
 <?php
 
-class Query
-{
-    private $select = [];
-    private $from;
-    private $where = [];
+namespace App\Helper;
 
-    public function from(string $table)
+use App\Config\Connection;
+
+class Database extends Connection
+{
+    private function cleanTable($tableName)
     {
-        $this->from = $table;
+        $query = "DELETE FROM $tableName";
+        $stmt = $this->connect->prepare($query);
+        $stmt->execute();
     }
 
-    public function select(string ...$fields)
+    private function insertIntoDbFromFile($fileName, $teminatedBy, $tableName, $columnName)
     {
-        $this->select = $fields;
+        $query = "LOAD DATA LOCAL INFILE '$fileName' INTO TABLE $tableName LINES TERMINATED BY '$teminatedBy' ($columnName)";
+        $this->connect->exec($query);
+    }
+
+    public function reuploadFileInDatabase($fileName, $teminatedBy, $tableName, $columnName)
+    {
+        $this->cleanTable($tableName);
+        $this->insertIntoDbFromFile($fileName, $teminatedBy, $tableName, $columnName);
+    }
+
+        public function getDataFromDb($tableName, $columnName)
+    {
+        $data = $this->connect->query("SELECT $columnName FROM $tableName")->fetchAll();
+        return $data;
+
+
+
     }
 
 }
