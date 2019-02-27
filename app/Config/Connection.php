@@ -10,8 +10,9 @@ class Connection
     private $password = "root";
     private $database = "test";
     protected $connect;
+    private static $instance = null;
 
-    public function __construct()
+    private function __construct()
     {
         try
         {
@@ -23,5 +24,18 @@ class Connection
         {
             echo $error->getMessage();
         }
+    }
+
+    public static function conn()
+    {
+        if(self::$instance == null){
+            self::$instance = new Connection();
+        }
+        return self::$instance;
+    }
+
+    public function getConn()
+    {
+        return $this->connect;
     }
 }

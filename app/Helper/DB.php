@@ -3,12 +3,12 @@ namespace App\Helper;
 
 class DB {
 
-    private static $instance = NULL;
+    private static $inst = NULL;
 
     public static function sql()
     {
-        self::$instance = new self();
-        return self::$instance;
+        self::$inst = new self();
+        return self::$inst;
     }
 
     public function select(string $select_options = "*")
@@ -67,11 +67,12 @@ class DB {
         return $this;
     }
 
-    // GroupBy
+
     public function groupBy(string $group_options)
     {
         $query_part = "groupBy ".$group_options;
         $this->groupBy = $query_part;
+
         return $this;
     }
 

@@ -4,11 +4,27 @@ namespace App\Helper;
 
 use App\Config\Connection;
 
-class Database extends Connection
+class Query extends Connection
 {
+    protected $connect;
+
+    public function __construct()
+    {
+        $this->connect = Connection::conn()->getConn();
+    }
+
+
+    public function reuploadFileInDatabase($fileName, $teminatedBy, $tableName, $columnName)
+    {
+        $this->cleanTable($tableName);
+        $this->insertIntoDbFromFile($fileName, $teminatedBy, $tableName, $columnName);
+    }
+
     private function cleanTable($tableName)
     {
-        $query = "DELETE FROM $tableName";
+        $query = DB::sql()
+            ->delete($tableName)
+            ->get();
         $stmt = $this->connect->prepare($query);
         $stmt->execute();
     }
@@ -19,19 +35,10 @@ class Database extends Connection
         $this->connect->exec($query);
     }
 
-    public function reuploadFileInDatabase($fileName, $teminatedBy, $tableName, $columnName)
-    {
-        $this->cleanTable($tableName);
-        $this->insertIntoDbFromFile($fileName, $teminatedBy, $tableName, $columnName);
-    }
-
         public function getDataFromDb($tableName, $columnName)
     {
         $data = $this->connect->query("SELECT $columnName FROM $tableName")->fetchAll();
         return $data;
-
-
-
     }
 
 }

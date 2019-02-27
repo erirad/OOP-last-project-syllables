@@ -1,5 +1,5 @@
 <?php
-namespace App\Helper;
+namespace App\Lib;
 
 use App\Helper\File;
 
@@ -14,7 +14,7 @@ class PatternsTree
 
     public function makePatternsTree()
     {
-        $patterns = $this->file->insertValuesFromFileIntoArray("/var/www/html/untitled/text.txt");
+        $patterns = $this->file->insertValuesFromFileIntoArray(PATH . "/text.txt");
 
         $sortedByTwoArr = [];
         foreach ($patterns as $pattern) {

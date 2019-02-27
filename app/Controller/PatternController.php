@@ -5,17 +5,15 @@ use App\Model\Pattern;
 
 class PatternController
 {
-    public function insert($fileName)
+    private $patterns;
+
+    public function __construct()
     {
-        $patterns = new Pattern();
-        $patterns->reuploadFileInDatabase($fileName, "\n", "patterns", "name");
+        $this->patterns = new Pattern();
     }
 
-    public function read()
+    public function insert($fileName)
     {
-        $patterns = new Pattern();
-        $data = $patterns->getDataFromDb("patterns", "name");
-
-        return $data;
+        $this->patterns->reuploadFileInDatabase($fileName, "\n", "patterns", "name");
     }
 }

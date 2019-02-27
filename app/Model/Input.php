@@ -1,17 +1,14 @@
 <?php
 namespace App\Model;
 
-use App\Helper\Database;
+use App\Helper\Query;
 use App\Helper\DB;
 
-class Input extends Database
+class Input extends Query
 {
-    private $table_name = "cmi";
-    public $id;
-    public $word;
-    public $syllables_result;
+    private $table_name = "input";
 
-    public function checkIfInputExistInDb($word)
+    public function takeInputResultFromDB($word)
     {
         $query = DB::sql()
             ->select("syllables_result")
@@ -24,9 +21,9 @@ class Input extends Database
         return $result;
     }
 
-    public function insertWordsFromCmiIntoTableWithResult($word, $result)
+    public function insertInputWithHyphenatedResultToDB($word, $result)
     {
-           $data = $this->checkIfInputExistInDb($word);
+           $data = $this->takeInputResultFromDB($word);
             if(!$data){
                 $query = DB::sql()
                     ->insert($this->table_name)
@@ -35,20 +32,6 @@ class Input extends Database
                 $stmt = $this->connect->prepare($query);
                 $stmt->execute([$word, $result]);
             }
-    }
-
-    public function insertMatchesWithPatternsAndWord($word, $pattern)
-    {
-        //$query = "INSERT INTO syllables (word_id, pattern_id) VALUES ('$word', '$pattern')";
-
-       // $query = DB::sql()
-      //      ->insert("syllables")
-       //     ->set("word_id = ':word', pattern_id = ':pattern'")
-       //     ->get();
-        //$query = "INSERT INTO syllables (word_id, pattern_id) VALUES ((SELECT word from cmi where word=':word'), (SELECT name from patterns where name=':pattern'))";
-       // $stmt = $this->connect->prepare($query);
-      //  $stmt->execute(["word" => $word, "pattern" => $pattern])
-      //  $this->connect->exec($query);
     }
 
     public function read()
@@ -84,8 +67,7 @@ class Input extends Database
             ->where("id = ?")
             ->get();
         $stmt = $this->connect->prepare($query);
-        $stmt->execute([$id]);
-        $deleted = $stmt->execute();
+        $deleted = $stmt->execute([$id]);
 
         return $deleted;
     }
@@ -102,5 +84,12 @@ class Input extends Database
         return $created;
     }
 
-
+    public function insertMatchesWithPatternsAndWord($word, $pattern)
+    {
+        $query = "INSERT INTO syllables (word_id, pattern_id) VALUES (:word, (SELECT name from patterns where name =:pattern))";
+        $stmt = $this->connect->prepare($query);
+        $stmt->bindParam(':word', $word);
+        $stmt->bindParam(':pattern', $pattern);
+        $stmt->execute();
+    }
 }

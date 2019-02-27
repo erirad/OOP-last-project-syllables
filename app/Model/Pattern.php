@@ -1,9 +1,9 @@
 <?php
 namespace App\Model;
 
-use App\Helper\Database;
+use App\Helper\Query;
 
-class Pattern extends Database
+class Pattern extends Query
 {
     public function reuploadFileInDatabase($fileName, $teminatedBy, $tableName, $columnName)
     {

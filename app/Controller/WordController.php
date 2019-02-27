@@ -5,19 +5,15 @@ use App\Model\Word;
 
 class WordController
 {
+    private $words;
+
+    public function __construct()
+    {
+        $this->words = new Word();
+    }
+
     public function insert($fileName)
     {
-        $words = new Word();
-        $words->reuploadFileInDatabase($fileName, "\n", "words", "word");
+        $this->words->reuploadFileInDatabase($fileName, "\n", "words", "word");
     }
-
-    public function read()
-    {
-        $words = new Word();
-        $data = $words->getDataFromDb("words", "word");
-
-        return $data;
-    }
-
-
 }

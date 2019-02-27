@@ -1,11 +1,8 @@
 <?php
 namespace App\Start;
 
-
-use App\Helper\Match;
-use App\Helper\Syllables;
-use App\Monolog\Logger;
-use App\Monolog\Handler\StreamHandler;
+use App\Lib\Match;
+use App\Lib\Hyphenator;
 
 class App
 {
@@ -15,7 +12,20 @@ class App
     public function __construct()
     {
         $this->matches = new Match();
-        $this->syllables = new Syllables();
+        $this->syllables = new Hyphenator();
+    }
+
+    public function hyphenateInput($input, $patternTree)
+    {
+      $inputWithDots = $this->addDotsBeforeAndAfterWord($input);
+      $patterns = $this->matches->getPatterns($inputWithDots, $patternTree);
+      if($patterns){
+          $result = $this->syllables->getHyphenatedWord($patterns, $inputWithDots);
+
+          return $result;
+      } else {
+          return $input;
+      }
     }
 
     private function addDotsBeforeAndAfterWord($input)
@@ -26,18 +36,5 @@ class App
 
         return $inputWithDots;
     }
-
-  public function syllableInput($input)
-  {
-      $inputWithDots = $this->addDotsBeforeAndAfterWord($input);
-      $patterns = $this->matches->insertMatchesIntoArray($inputWithDots);
-      if($patterns){
-          $result = $this->syllables->getSyllablesWord($patterns, $inputWithDots);
-
-          return $result;
-      } else {
-          return $input;
-      }
-  }
 }
 

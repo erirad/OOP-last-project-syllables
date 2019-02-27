@@ -25,7 +25,7 @@ class ApiController
                 break;
             case 'POST':
                 $word = $_POST["word"];
-                $result = $this->app->syllableInput($word);
+                $result = $this->app->getHyphenatedWord($word);
                 $created = $this->input->create($word, $result);
                 if($created) {
                     $response = http_response_code(201);
@@ -41,11 +41,10 @@ class ApiController
                     unset($_PUT[$key]);
                     $_PUT[str_replace('amp;', '', $key)] = $value;
                 }
-
                 array_merge($_REQUEST, $_PUT);
                 $id = $_PUT["id"];
                 $word = $_PUT['word'];
-                $result = $this->app->syllableInput($word);
+                $result = $this->app->getHyphenatedWord($word);
                 $updated = $this->input->update($id, $word, $result);
                 if($updated) {
                     $response = http_response_code(200);
