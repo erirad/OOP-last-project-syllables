@@ -17,11 +17,14 @@ class PatternsTree
         $patterns = $this->file->insertValuesFromFileIntoArray("/var/www/html/untitled/text.txt");
 
         $sortedByTwoArr = [];
-        $patternsWithoutNumbersArray = [];
         foreach ($patterns as $pattern) {
             $patternWithoutNumbers = preg_replace('/[0-9]+/', '', $pattern);
-            $patternsWithoutNumbersArray[] = $patternWithoutNumbers;
-            $sortedByTwoArr[$patternWithoutNumbers[0]][$patternWithoutNumbers[1]][] = $pattern;
+            $length = strlen($patternWithoutNumbers);
+            if($length < 3){
+                $sortedByTwoArr[$patternWithoutNumbers[0]][$patternWithoutNumbers[1]][0][] = $pattern;
+            } else {
+                $sortedByTwoArr[$patternWithoutNumbers[0]][$patternWithoutNumbers[1]][$patternWithoutNumbers[2]][] = $pattern;
+            }
         }
         return $sortedByTwoArr;
     }

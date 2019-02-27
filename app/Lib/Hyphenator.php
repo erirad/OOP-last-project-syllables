@@ -1,7 +1,7 @@
 <?php
 namespace App\Helper;
 
-class Syllables
+class Hyphenator
 {
     public function getHyphenatedWord($patterns, $input)
     {
@@ -37,11 +37,11 @@ class Syllables
     private function findHighestValueAndReplaceOddToDash($positionsArray, $input)
     {
         ksort($positionsArray);
-        $inputLenght = strlen($input);
+        $inputLength = strlen($input);
         $iterate = 0;
         foreach ($positionsArray as $key => $value) {
             $number = max($value);
-            if ($key != 1 && $key != $inputLenght - 1 && $number % 2 != 0){
+            if ($key != 1 && $key != $inputLength - 1 && $number % 2 != 0){
                 $input = substr_replace($input, "-", $key+$iterate, 0);
                 $iterate++;
             }
